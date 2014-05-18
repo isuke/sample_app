@@ -69,7 +69,7 @@ describe User do
   describe "when email address is already taken" do
     before do
       user_with_same_email = @user.dup
-      user_with_same_email.email = @user.email.upcase
+      user_with_same_email.email.upcase!
       user_with_same_email.save
     end
 
@@ -109,7 +109,9 @@ describe User do
     let(:found_user) { User.find_by(email: @user.email) }
 
     describe "with valid password" do
-      it { should eq found_user.authenticate(@user.password) }
+      let(:user_for_valid_password) { found_user.authenticate(@user.password) }
+
+      it { should eq user_for_valid_password }
     end
 
     describe "with invalid password" do
